@@ -55,7 +55,13 @@ function App() {
     <>
       <div>find countries <input type='text' name='search' value={search} onChange={handleSearchChange} /></div>
 
-      {countriesToShow.map(country => <div key={country.name.common}>{country.name.common}</div>)}
+      {countriesToShow.map(country => 
+        <div key={country.name.common}>
+          {country.name.common}
+          <button onClick={() => setSearch(country.name.common)}>Show</button>
+        </div>
+        )
+      }
     </>
   )
 }

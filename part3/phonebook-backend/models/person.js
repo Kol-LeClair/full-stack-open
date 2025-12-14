@@ -13,24 +13,24 @@ mongoose.connect(url, { family: 4 })
     console.log('error connecting to MongoDB:', error.message)
   })
 
-  const personSchema = new mongoose.Schema({
-      name: {
-        type: String,
-        minLength: 3,
-        required: true
-      },
-      number: {
-        type: String,
-        minLength: 8,
-        required: true,
-        validate: {
-            validator: function(v) {
-                return /\b\d{2,3}\b-\d+$/.test(v)
-            }
-        }
+const personSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    minLength: 3,
+    required: true
+  },
+  number: {
+    type: String,
+    minLength: 8,
+    required: true,
+    validate: {
+      validator: function(v) {
+        return /\b\d{2,3}\b-\d+$/.test(v)
       }
-  })
-  
+    }
+  }
+})
+
 personSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()

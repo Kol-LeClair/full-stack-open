@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 const dummy = (blogs) => {
     return 1
 }
@@ -15,8 +17,47 @@ const favoriteBlog = (blogs) => {
     )
 }
 
+const mostBlogs = (blogs) => {
+    return {
+        author: _.head(_(blogs)
+            .countBy('author')
+            .entries()
+            .maxBy(_.last)    
+        ),
+
+        blogs: _.size(_.filter(blogs, {
+            'author': _.head(_(blogs)
+                .countBy('author')
+                .entries()
+                .maxBy(_.last)    
+            )
+        }))
+    }
+}
+
+const mostLikes = (blogs) => {
+    let authors = []
+
+    blogs.forEach(blog => {
+        if (!Array.prototype.includes.call(authors.map(author => author.author), blog.author)) {
+            authors.push({
+                author: blog.author,
+                likes: blog.likes
+            })        
+        } else {
+            authors.find(author => author.author === blog.author).likes = authors.find(author => author.author === blog.author).likes + blog.likes
+        }
+    })
+    
+    return authors.reduce(
+        (previous, current) => (previous.likes > current.likes) ? previous : current
+    )
+}
+
 module.exports = {
     dummy,
     totalLikes,
-    favoriteBlog
+    favoriteBlog,
+    mostBlogs,
+    mostLikes
 }

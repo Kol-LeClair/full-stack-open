@@ -22,7 +22,12 @@ mongoose.connect(url, { family: 4 })
       number: {
         type: String,
         minLength: 8,
-        required: true
+        required: true,
+        validate: {
+            validator: function(v) {
+                return /\b\d{2,3}\b-\d+$/.test(v)
+            }
+        }
       }
   })
   

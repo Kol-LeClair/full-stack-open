@@ -2,8 +2,7 @@ const { test, describe } = require('node:test')
 const assert = require('node:assert')
 const listHelper = require('../utils/list_helper')
 
-describe('total likes', () => {
-  const listWithOneBlog = [
+const listWithOneBlog = [
     {
       _id: '5a422aa71b54a676234d17f8',
       title: 'Go To Statement Considered Harmful',
@@ -65,6 +64,7 @@ describe('total likes', () => {
   }  
 ]
 
+describe('total likes', () => {
     test('of empty list is zero', () => {
         const result = listHelper.totalLikes([])
         assert.strictEqual(result, 0)
@@ -78,5 +78,17 @@ describe('total likes', () => {
     test('of a bigger list is calculated right', () => {
         const result = listHelper.totalLikes(blogs)
         assert.strictEqual(result, 36)
+    })
+})
+
+describe('favorite blog', () => {
+    test('when list has only one blog, is that blog', () => {
+        const result = listHelper.favoriteBlog(listWithOneBlog)
+        assert.deepStrictEqual(result, listWithOneBlog[0])
+    })
+
+    test('of a bigger list is the blog with the most likes', () => {
+        const result = listHelper.favoriteBlog(blogs)
+        assert.deepStrictEqual(result, blogs[2])
     })
 })

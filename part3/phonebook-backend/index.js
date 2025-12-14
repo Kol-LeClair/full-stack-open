@@ -1,14 +1,14 @@
 const express = require('express')
-const cors = require('cors')
 const morgan = require('morgan')
 const app = express()
 
 app.use(express.json())
 app.use(express.static('dist'))
-app.use(cors())
 
 morgan.token('body', (request, response) => JSON.stringify(request.body)) 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+
+const url = `mongodb+srv://leclair-kol:${password}@phonebook.b0cyeie.mongodb.net/phonebookApp?appName=Phonebook`
 
 let persons = [
     { 
@@ -34,7 +34,9 @@ let persons = [
 ]
 
 app.get('/api/persons', (request, response) => {
-    response.json(persons)
+    Person.find({}).then(persons => {
+        response.json(persons)
+    })
 })
 
 app.get('/info', (request, response) => {

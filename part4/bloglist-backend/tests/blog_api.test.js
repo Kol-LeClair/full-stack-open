@@ -1,9 +1,11 @@
+const bcrypt = require('bcrypt')
 const { test, after, beforeEach } = require('node:test')
 const assert = require('node:assert')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const helper = require('./test_helper')
 
 const api = supertest(app)
@@ -11,6 +13,15 @@ const api = supertest(app)
 beforeEach(async () => {
     await Blog.deleteMany({})
     await Blog.insertMany(helper.initialBlogs)
+
+    /*
+    await User.deleteMany({})
+    
+    const passwordHash = await bcrypt.hash('password', 10)
+    const user = new User({ username: 'username', passwordHash })
+    
+    await user.save()
+    /*
     
     /*
     await Blog.deleteMany({})
@@ -52,9 +63,21 @@ test('a valid blog can be added', async () => {
         likes: 0
     }
 
+    const user = {
+        username: 'root',
+        password: 'sekret',
+    }
+
+    const login = await api
+        .post('/api/login')
+        .send(user)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
     await api
         .post('/api/blogs')
         .send(newBlog)
+        .set({ Authorization: `Bearer ${login.body.token}` })
         .expect(201)
         .expect('Content-Type', /application\/json/)
     
@@ -65,6 +88,21 @@ test('a valid blog can be added', async () => {
     assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1)
 
     assert(titles.includes('New Blog'))
+})
+
+test('adding a blog fails if a token is not provided', async () => {
+    const newBlog = {
+        title: 'New Blog',
+        author: 'Me',
+        url: "NewBlog.com",
+        likes: 0
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(401)
+        .expect('Content-Type', /application\/json/)
 })
 
 test('likes will default to 0 if not provided', async () => {

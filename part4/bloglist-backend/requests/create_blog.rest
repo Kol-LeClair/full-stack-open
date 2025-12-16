@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwiaWQiOiI2OTQwNGFiNGI4YWY4YTczNjZmZDY2NzYiLCJpYXQiOjE3NjU5MDMyODl9.ChgacChuRnpMR_80sj3AQ-bCA9Vm3OtKdDFRfUJ3-OU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lMyIsImlkIjoiNjk0MTkxNzJlYjk0MDM3MzhlOWJhYjVkIiwiaWF0IjoxNzY1OTA0NzYzfQ.ryqG8miAlzYkAaU8lkfwhgJ2jel5rQrZNGvZGpXSfgI
 
 {
-    "title": "Yet Another Another Another Blog",
-    "author": "Someone",
-    "url": "URL.com",
-    "likes": 123
+    "title": "Me3's Blog",
+    "author": "Me3",
+    "url": "Me3Blog.com",
+    "likes": 333
 }

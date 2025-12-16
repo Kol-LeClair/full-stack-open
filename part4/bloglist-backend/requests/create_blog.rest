@@ -1,6 +1,6 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lMyIsImlkIjoiNjk0MTkxNzJlYjk0MDM3MzhlOWJhYjVkIiwiaWF0IjoxNzY1OTA1MzYwfQ.CD6pZ6BPjIF5hkKxrKREF4v7JCUNk1Pn6zWebZxuqlo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lMyIsImlkIjoiNjk0MTkxNzJlYjk0MDM3MzhlOWJhYjVkIiwiaWF0IjoxNzY1OTA3MTQwfQ.3YpzY5zgEQMr2RFhW00BNhNxN00xtqMb-jmAmSIE9dA
 
 {
     "title": "Me3's Blog 2",

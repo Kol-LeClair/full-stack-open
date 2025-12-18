@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react'
+
+import './index.css'
+
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -12,6 +16,8 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [message, setMessage] = useState(null)
+  const [isError, setIsError] = useState(false)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -43,14 +49,12 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch {
-      console.log('wrong credentials')
-      
-      /*
-      setErrorMessage('wrong credentials')
+      setIsError(true)
+      setMessage('wrong username or password')
       setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
-      */
+        setMessage(null)
+        setIsError(false)
+      }, 3000)
     }
   }
 
@@ -69,6 +73,11 @@ const App = () => {
       setTitle('')
       setAuthor('')
       setUrl('')
+
+      setMessage(`a new blog ${title} by ${author} added`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 3000)
     } catch {
       console.log('error')
     }
@@ -77,7 +86,6 @@ const App = () => {
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
-        <h2>log in to application</h2>
         <label>
           username
           <input
@@ -104,11 +112,19 @@ const App = () => {
   return (
     <div>
 
-      {!user && loginForm()}
+      {!user && (
+        <div>
+        <h2>log in to application</h2>
+        <Notification message={message} isError={isError} />
+        {loginForm()}
+        </div>
+      )}
       
       {user && (
         <div>
           <h2>blogs</h2>
+
+          <Notification message={message} isError={isError} />
 
           <p>{user.name} logged in
             <button onClick={() => {

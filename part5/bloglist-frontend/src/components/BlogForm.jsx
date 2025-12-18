@@ -1,4 +1,39 @@
-const BlogForm = ({ handleBlog, title, author, url, setTitle, setAuthor, setUrl }) => (
+import { useState } from 'react'
+import blogService from '../services/blogs'
+
+const BlogForm = ({ blogs, setBlogs, setMessage, blogFormRef }) => {
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+  
+  const handleBlog = async (event) => {
+    event.preventDefault()
+    try {
+      const blogObject = {
+        title: title,
+        author: author,
+        url: url
+      }
+      
+      blogFormRef.current.toggleVisibility()
+
+      const returnedBlog = await blogService.create(blogObject)
+
+      setBlogs(blogs.concat(returnedBlog))
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+
+      setMessage(`a new blog ${title} by ${author} added`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 3000)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+    
+  return (
     <form onSubmit={handleBlog}>
       <div>
         <h2>create new</h2>
@@ -33,6 +68,7 @@ const BlogForm = ({ handleBlog, title, author, url, setTitle, setAuthor, setUrl 
       </div>
       <button type="submit">create</button>
     </form>
-)
+  )
+}
 
 export default BlogForm

@@ -22,7 +22,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -39,11 +39,11 @@ const App = () => {
 
     try {
       const user = await loginService.login({ username, password })
-      
+
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
       )
-      
+
       blogService.setToken(user.token)
       setUser(user)
       setUsername('')
@@ -89,12 +89,12 @@ const App = () => {
 
       {!user && (
         <div>
-        <h2>log in to application</h2>
-        <Notification message={message} isError={isError} />
-        {loginForm()}
+          <h2>log in to application</h2>
+          <Notification message={message} isError={isError} />
+          {loginForm()}
         </div>
       )}
-      
+
       {user && (
         <div>
           <h2>blogs</h2>
@@ -109,7 +109,7 @@ const App = () => {
               logout
             </button>
           </p>
-          
+
           <Togglable buttonLabel={'create new blog'} ref={blogFormRef}>
             <BlogForm
               blogs={blogs}

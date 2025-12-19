@@ -5,7 +5,7 @@ const BlogForm = ({ blogs, setBlogs, setMessage, blogFormRef }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
-  
+
   const handleBlog = async (event) => {
     event.preventDefault()
     try {
@@ -14,7 +14,7 @@ const BlogForm = ({ blogs, setBlogs, setMessage, blogFormRef }) => {
         author: author,
         url: url
       }
-      
+
       blogFormRef.current.toggleVisibility()
 
       const returnedBlog = await blogService.create(blogObject)
@@ -32,7 +32,7 @@ const BlogForm = ({ blogs, setBlogs, setMessage, blogFormRef }) => {
       console.log(error)
     }
   }
-    
+
   return (
     <form onSubmit={handleBlog}>
       <div>

@@ -7,7 +7,7 @@ const Blog = ({ blog, user, setBlogs, blogs }) => {
 
   const addLike = async (event) => {
     try {
-      const changedBlog = {...blog, likes: likes + 1}
+      const changedBlog = { ...blog, likes: likes + 1 }
       setLikes(likes + 1)
       await blogService.update(blog.id, changedBlog)
     } catch {
@@ -25,7 +25,7 @@ const Blog = ({ blog, user, setBlogs, blogs }) => {
       console.log('error')
     }
   }
-  
+
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -38,13 +38,13 @@ const Blog = ({ blog, user, setBlogs, blogs }) => {
     return (
       <div style={blogStyle}>
         <div>
-          {blog.title} 
+          {blog.title}
           {blog.author}
           <button onClick={() => setShowDetails(false)}>hide</button>
         </div>
         <div>{blog.url}</div>
         <div>
-          likes 
+          likes
           {likes}
           <button onClick={() => addLike()}>like</button>
         </div>
@@ -58,7 +58,7 @@ const Blog = ({ blog, user, setBlogs, blogs }) => {
     <div style={blogStyle}>
       {blog.title} {blog.author}
       <button onClick={() => setShowDetails(true)}>view</button>
-    </div>  
+    </div>
   )
 }
 

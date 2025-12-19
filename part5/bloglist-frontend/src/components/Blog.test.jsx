@@ -46,3 +46,29 @@ test('clicking view button shows url and likes', async () => {
 
     // expect(mockHandler.mock.calls).toHaveLenght(1)
 })
+
+test('clicking like button twice calls the event twice', async () => {
+    const blog = {
+        title: 'Title',
+        author: 'Author',
+        url: 'Url.com',
+        user: {
+            name: 'Me'
+        }
+    }
+
+    const mockHandler = vi.fn()
+
+    render( <Blog blog={blog} user={blog.user} />)
+
+    const user = userEvent.setup()
+    await user.click(screen.getByText('view'))
+
+    const likeButton = screen.getByText('like')
+    likeButton.addEventListener("click", mockHandler)
+    
+    await user.click(likeButton)
+    await user.click(likeButton)
+
+    expect(mockHandler.mock.calls).toHaveLength(2)
+})

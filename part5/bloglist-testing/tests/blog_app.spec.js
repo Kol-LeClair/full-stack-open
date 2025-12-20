@@ -11,6 +11,14 @@ describe('Blog app', () => {
             password: 'password88'
         }
     })
+
+    await request.post('/api/users', {
+        data: {
+            name: 'Me',
+            username: 'username',
+            password: 'password'
+        }
+    })
     
     await page.goto('/')
   })
@@ -29,7 +37,7 @@ describe('Blog app', () => {
     })
 
     test('fails with wrong credentials', async ({ page }) => {
-      await loginWith(page, 'username', 'password')
+      await loginWith(page, 'username2', 'password2')
 
       const errorDiv = page.locator('.error')
       await expect(errorDiv).toContainText('wrong username or password')
@@ -82,6 +90,21 @@ describe('Blog app', () => {
         await page.getByRole('button', { name: 'remove' }).click()
 
         await expect(page.getByText('Testing Title Testing Author')).not.toBeVisible()
+    })
+
+    test('a blog cannnot be deleted by a different user', async ({ page }) => {
+        await page.getByRole('button', { name: 'create new blog' }).click()
+        const textboxes = await page.getByRole('textbox').all()
+        await textboxes[0].fill('Testing Title')
+        await textboxes[1].fill('Testing Author')
+        await textboxes[2].fill('Testing Url')
+        await page.getByRole('button', { name: 'create' }).click()
+
+        await page.getByRole('button', { name: 'logout' }).click()
+        await loginWith(page, 'username', 'password')
+
+        await page.getByRole('button', { name: 'view' }).click()
+        await expect(page.getByText('remove')).not.toBeVisible()
     })
         
 })

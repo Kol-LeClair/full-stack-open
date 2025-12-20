@@ -3,6 +3,7 @@ import blogService from '../services/blogs'
 
 const Blog = ({ blog, user, setBlogs, blogs }) => {
   const [showDetails, setShowDetails] = useState(false)
+  const [showRemove, setShowRemove] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
 
   const addLike = async (event) => {
@@ -57,7 +58,9 @@ const Blog = ({ blog, user, setBlogs, blogs }) => {
   return (
     <div style={blogStyle}>
       {blog.title} {blog.author}
-      <button onClick={() => setShowDetails(true)}>view</button>
+      <button onClick={() => setShowDetails(true)}>
+        view
+      </button>
     </div>
   )
 }

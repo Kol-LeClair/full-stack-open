@@ -1,4 +1,9 @@
+import { useSelector, useDispatch } from 'react-redux'
+import { setNotification } from "../reducers/notificationReducer"
+
 const Notification = () => {
+  const message = useSelector(state => state.notification)
+  
   const style = {
     border: 'solid',
     padding: 10,
@@ -6,11 +11,7 @@ const Notification = () => {
     marginBottom: 10
   }
 
-  return (
-    <div style={style}>
-      render here notification...
-    </div>
-  )
+  return <>{(message != '') && <div style={style}>{message}</div>}</>
 }
 
 export default Notification

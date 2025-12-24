@@ -85,23 +85,30 @@ const CreateNew = (props) => {
     }, 5000)
   }
 
+  const handleReset = () => {
+    content.onReset()
+    author.onReset()
+    info.onReset()
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name='content' type={content.type} value={content.value} onChange={content.onChange} />
+          <input name='content' {...content} />
         </div>
         <div>
           author
-          <input name='author' type={author.type} value={author.value} onChange={author.onChange} />
+          <input name='author' {...author} />
         </div>
         <div>
           url for more info
           <input name='info' {...info} />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
+        <button type="button" onClick={handleReset}>reset</button>
       </form>
     </div>
   )

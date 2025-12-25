@@ -3,7 +3,6 @@ import blogService from '../services/blogs'
 
 const Blog = ({ blog, user, setBlogs, blogs }) => {
   const [showDetails, setShowDetails] = useState(false)
-  const [showRemove, setShowRemove] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
 
   const addLike = async (event) => {

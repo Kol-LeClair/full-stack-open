@@ -1,7 +1,11 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { addNotification } from '../reducers/notificationReducer'
 import blogService from '../services/blogs'
 
-const BlogForm = ({ blogs, setBlogs, setMessage, blogFormRef }) => {
+const BlogForm = ({ blogs, setBlogs, blogFormRef }) => {
+  const dispatch = useDispatch()
+  
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -24,10 +28,7 @@ const BlogForm = ({ blogs, setBlogs, setMessage, blogFormRef }) => {
       setAuthor('')
       setUrl('')
 
-      setMessage(`a new blog ${title} by ${author} added`)
-      setTimeout(() => {
-        setMessage(null)
-      }, 3000)
+      dispatch(addNotification(`a new blog ${title} by ${author} added`, 5))
     } catch (error) {
       console.log(error)
     }

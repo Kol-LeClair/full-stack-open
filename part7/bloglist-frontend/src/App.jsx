@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { addNotification } from "./reducers/notificationReducer";
 
 import "./index.css";
 
@@ -10,11 +12,12 @@ import blogService from "./services/blogs";
 import loginService from "./services/login";
 
 const App = () => {
+  const dispatch = useDispatch()
+  
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-  const [message, setMessage] = useState(null);
   const [isError, setIsError] = useState(false);
 
   const blogFormRef = useRef();
@@ -46,11 +49,10 @@ const App = () => {
       setPassword("");
     } catch {
       setIsError(true);
-      setMessage("wrong username or password");
+      dispatch(addNotification('wrong username or password', 5))
       setTimeout(() => {
-        setMessage(null);
         setIsError(false);
-      }, 3000);
+      }, 5000);
     }
   };
 
@@ -85,7 +87,7 @@ const App = () => {
       {!user && (
         <div>
           <h2>log in to application</h2>
-          <Notification message={message} isError={isError} />
+          <Notification isError={isError} />
           {loginForm()}
         </div>
       )}
@@ -94,7 +96,7 @@ const App = () => {
         <div>
           <h2>blogs</h2>
 
-          <Notification message={message} isError={isError} />
+          <Notification isError={isError} />
 
           <p>
             {user.name} logged in
@@ -112,7 +114,6 @@ const App = () => {
             <BlogForm
               blogs={blogs}
               setBlogs={setBlogs}
-              setMessage={setMessage}
               blogFormRef={blogFormRef}
             />
           </Togglable>

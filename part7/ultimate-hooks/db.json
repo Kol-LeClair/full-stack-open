@@ -1,0 +1,97 @@
+{
+  "notes": [
+    {
+      "id": 1,
+      "content": "custom-hooks are awesome!"
+    },
+    {
+      "id": 2,
+      "content": "best feature ever <3"
+    },
+    {
+      "content": "A new note",
+      "id": 3
+    },
+    {
+      "content": "Another New Note",
+      "id": 4
+    },
+    {
+      "content": "Another One",
+      "id": 5
+    },
+    {
+      "content": "qwewqe",
+      "id": 6
+    },
+    {
+      "content": "qweqw",
+      "id": 7
+    },
+    {
+      "content": "eqwe",
+      "id": 8
+    },
+    {
+      "content": "eee",
+      "id": 9
+    },
+    {
+      "content": "dasdas",
+      "id": 10
+    },
+    {
+      "content": "qqq",
+      "id": 11
+    },
+    {
+      "content": "qqq",
+      "id": 12
+    },
+    {
+      "content": "qqq",
+      "id": 13
+    },
+    {
+      "content": "ww",
+      "id": 14
+    }
+  ],
+  "persons": [
+    {
+      "id": 1,
+      "name": "mluukkai",
+      "number": "040-5483923"
+    },
+    {
+      "id": 2,
+      "name": "hellas",
+      "number": "012-123123"
+    },
+    {
+      "name": "Another new person",
+      "number": "123123",
+      "id": 3
+    },
+    {
+      "name": "eqwe",
+      "number": "qwe",
+      "id": 4
+    },
+    {
+      "name": "eee",
+      "number": "eee",
+      "id": 5
+    },
+    {
+      "name": "eee",
+      "number": "eee",
+      "id": 6
+    },
+    {
+      "name": "qweqw",
+      "number": "qweqw",
+      "id": 7
+    }
+  ]
+}

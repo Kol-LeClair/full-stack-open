@@ -1,25 +1,24 @@
 import { useState } from 'react'
-import blogService from '../services/blogs'
+import { useDispatch } from 'react-redux'
+import { likeABlog, deleteABlog } from '../reducers/blogReducer'
 
-const Blog = ({ blog, user, setBlogs, blogs }) => {
+const Blog = ({ blog, user }) => {
   const [showDetails, setShowDetails] = useState(false)
-  const [likes, setLikes] = useState(blog.likes)
 
-  const addLike = async (event) => {
+  const dispatch = useDispatch()
+
+  const addLike = async () => {
     try {
-      const changedBlog = { ...blog, likes: likes + 1 }
-      setLikes(likes + 1)
-      await blogService.update(blog.id, changedBlog)
+      dispatch(likeABlog({ ...blog, likes: blog.likes + 1 }))
     } catch {
       console.log('error')
     }
   }
-
-  const deleteBlog = async (event) => {
+  
+  const deleteBlog = async () => {
     try {
       if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-        await blogService.remove(blog.id)
-        setBlogs(blogs.filter(b => b.id != blog.id))
+        dispatch(deleteABlog(blog))
       }
     } catch {
       console.log('error')
@@ -45,8 +44,8 @@ const Blog = ({ blog, user, setBlogs, blogs }) => {
         <div>{blog.url}</div>
         <div>
           likes
-          {likes}
-          <button onClick={() => addLike()}>like</button>
+          {blog.likes}
+          <button onClick={addLike}>like</button>
         </div>
         <div>{blog.user.name}</div>
         {blog.user.name === user.name && <button onClick={() => deleteBlog()}>remove</button>}

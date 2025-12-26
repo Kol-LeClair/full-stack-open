@@ -12,12 +12,6 @@ const getAll = async () => {
   return request.data;
 };
 
-const consoling = () => {
-  console.log("hello");
-  console.log("helda,s");
-  console.log("hello world");
-};
-
 const create = async (newObject) => {
   const config = {
     headers: { Authorization: token },

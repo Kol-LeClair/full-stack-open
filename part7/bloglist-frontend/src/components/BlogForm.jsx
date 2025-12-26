@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { addNotification } from '../reducers/notificationReducer'
 import blogService from '../services/blogs'
+import { appendBlog } from '../reducers/blogReducer'
 
 const BlogForm = ({ blogs, setBlogs, blogFormRef }) => {
   const dispatch = useDispatch()
@@ -21,9 +22,14 @@ const BlogForm = ({ blogs, setBlogs, blogFormRef }) => {
 
       blogFormRef.current.toggleVisibility()
 
+      /*
       const returnedBlog = await blogService.create(blogObject)
 
       setBlogs(blogs.concat(returnedBlog))
+      */
+
+      dispatch(appendBlog(blogObject))
+
       setTitle('')
       setAuthor('')
       setUrl('')

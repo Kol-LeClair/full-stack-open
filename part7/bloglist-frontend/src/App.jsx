@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { addNotification } from "./reducers/notificationReducer";
+import { initializeBlogs } from "./reducers/blogReducer";
+import { initializeUser, logoutTheUser } from "./reducers/userReducer";
 
 import "./index.css";
 
@@ -14,26 +16,30 @@ import loginService from "./services/login";
 const App = () => {
   const dispatch = useDispatch()
   
-  const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
   const [isError, setIsError] = useState(false);
 
   const blogFormRef = useRef();
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, []);
+    dispatch(initializeBlogs())
+  }, [dispatch]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      setUser(user);
+      dispatch(initializeUser(user))
       blogService.setToken(user.token);
     }
   }, []);
+
+  const blogs = useSelector(({ blogs }) => {
+    return blogs
+  })
+
+  const user = useSelector(({ user }) => user)
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -44,7 +50,7 @@ const App = () => {
       window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
 
       blogService.setToken(user.token);
-      setUser(user);
+      dispatch(initializeUser(user))
       setUsername("");
       setPassword("");
     } catch {
@@ -103,7 +109,7 @@ const App = () => {
             <button
               onClick={() => {
                 window.localStorage.removeItem("loggedBlogappUser");
-                setUser(null);
+                dispatch(logoutTheUser())
               }}
             >
               logout
@@ -113,20 +119,16 @@ const App = () => {
           <Togglable buttonLabel={"create new blog"} ref={blogFormRef}>
             <BlogForm
               blogs={blogs}
-              setBlogs={setBlogs}
               blogFormRef={blogFormRef}
             />
           </Togglable>
 
           {blogs
-            .sort((a, b) => b.likes - a.likes)
             .map((blog) => (
               <Blog
                 key={blog.id}
                 blog={blog}
                 user={user}
-                blogs={blogs}
-                setBlogs={setBlogs}
               />
             ))}
         </div>

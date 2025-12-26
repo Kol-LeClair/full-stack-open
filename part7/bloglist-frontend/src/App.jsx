@@ -3,6 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { addNotification } from "./reducers/notificationReducer";
 import { initializeBlogs } from "./reducers/blogReducer";
 import { initializeUser, logoutTheUser } from "./reducers/userReducer";
+import { 
+  BrowserRouter as Router,
+  Routes, Route, Link,
+  useParams, useNavigate, useMatch
+ } from "react-router-dom";
 
 import "./index.css";
 
@@ -12,6 +17,8 @@ import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
+import userService from "./services/users"
+import User from "./components/User";
 
 const App = () => {
   const dispatch = useDispatch()
@@ -19,11 +26,15 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isError, setIsError] = useState(false);
+  const [users, setUsers] = useState([])
 
   const blogFormRef = useRef();
 
   useEffect(() => {
     dispatch(initializeBlogs())
+    userService.getAll().then(users => {
+      setUsers(users)
+    })
   }, [dispatch]);
 
   useEffect(() => {
@@ -40,6 +51,12 @@ const App = () => {
   })
 
   const user = useSelector(({ user }) => user)
+
+  const userMatch = useMatch('/users/:id')
+  
+  const selectedUser = userMatch
+    ? users.find(u => u.id === String(userMatch.params.id))
+    : null
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -116,21 +133,38 @@ const App = () => {
             </button>
           </p>
 
-          <Togglable buttonLabel={"create new blog"} ref={blogFormRef}>
-            <BlogForm
-              blogs={blogs}
-              blogFormRef={blogFormRef}
-            />
-          </Togglable>
+          <Routes>
+            <Route path="/users" element={
+              <div>
+                <h2>Users</h2>
+                <b>name - blogs created</b>
+                {users.map(user => 
+                  <div key={user.id}>
+                    <Link to={`/users/${user.id}`}>{user.name}</Link> - {user.blogs.length}
+                  </div>)}
+              </div>
+            } />
+            <Route path="/users/:id" element={<User user={selectedUser}/>} />
+            <Route path="/" element={
+              <div>
+                <Togglable buttonLabel={"create new blog"} ref={blogFormRef}>
+                  <BlogForm
+                    blogs={blogs}
+                    blogFormRef={blogFormRef}
+                  />
+                </Togglable>
 
-          {blogs
-            .map((blog) => (
-              <Blog
-                key={blog.id}
-                blog={blog}
-                user={user}
-              />
-            ))}
+                {blogs
+                  .map((blog) => (
+                    <Blog
+                      key={blog.id}
+                      blog={blog}
+                      user={user}
+                    />
+                  ))}
+              </div>
+            } />
+          </Routes>
         </div>
       )}
     </div>

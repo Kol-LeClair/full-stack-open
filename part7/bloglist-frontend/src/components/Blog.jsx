@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { likeABlog, deleteABlog } from '../reducers/blogReducer'
+import { useNavigate } from 'react-router-dom'
 
 const Blog = ({ blog, user }) => {
   // const [showDetails, setShowDetails] = useState(false)
   console.log(blog)
+
+  const navigate = useNavigate()
 
   const dispatch = useDispatch()
 
@@ -20,6 +23,7 @@ const Blog = ({ blog, user }) => {
     try {
       if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
         dispatch(deleteABlog(blog))
+        navigate('/')
       }
     } catch {
       console.log('error')

@@ -20,6 +20,32 @@ import loginService from "./services/login";
 import userService from "./services/users"
 import User from "./components/User";
 
+const Menu = ({ user }) => {
+  const padding = {
+    paddingRight: 5
+  }
+
+  const background = {
+    backgroundColor: 'LightGray' 
+  }
+
+  return (
+    <div style={background}>
+      <Link to='/' style={padding}>blogs</Link>
+      <Link to='/users' style={padding}>users</Link>
+      {user.name} logged in
+      <button
+        onClick={() => {
+          window.localStorage.removeItem("loggedBlogappUser");
+          dispatch(logoutTheUser())
+        }}
+      >
+      logout
+      </button>
+    </div>
+  )
+}
+
 const App = () => {
   const dispatch = useDispatch()
   
@@ -120,6 +146,7 @@ const App = () => {
 
   return (
     <div>
+
       {!user && (
         <div>
           <h2>log in to application</h2>
@@ -130,21 +157,11 @@ const App = () => {
 
       {user && (
         <div>
+          <Menu user={user} />
+
           <h2>blogs</h2>
 
           <Notification isError={isError} />
-
-          <p>
-            {user.name} logged in
-            <button
-              onClick={() => {
-                window.localStorage.removeItem("loggedBlogappUser");
-                dispatch(logoutTheUser())
-              }}
-            >
-              logout
-            </button>
-          </p>
 
           <Routes>
             <Route path="/blogs/:id" element={
@@ -185,6 +202,7 @@ const App = () => {
           </Routes>
         </div>
       )}
+
     </div>
   );
 };

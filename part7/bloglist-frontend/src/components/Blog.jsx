@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { likeABlog, deleteABlog } from '../reducers/blogReducer'
+import { likeABlog, deleteABlog, commentBlog } from '../reducers/blogReducer'
 import { useNavigate } from 'react-router-dom'
 
 const Blog = ({ blog, user }) => {
   // const [showDetails, setShowDetails] = useState(false)
+  const [comment, setComment] = useState('')
   console.log(blog)
 
   const navigate = useNavigate()
@@ -55,6 +56,23 @@ const Blog = ({ blog, user }) => {
       </p>
       <p>added by {blog.user.name}</p>
       {blog.user.name === user.name && <button onClick={() => deleteBlog()}>remove</button>}
+      <h3>comments</h3>
+      <input
+        type="text"
+        value={comment}
+        onChange={({ target }) => setComment(target.value)}
+      />
+      <button onClick={
+        () => {
+          dispatch(commentBlog({ ...blog, comments: blog.comments.concat(comment) }))
+          setComment('')
+        }
+      }>
+        add comment
+      </button>
+      <ul>
+        {blog.comments.map(comment => <li key={comment}>{comment}</li>)}
+      </ul>
     </div>
   )
 }

@@ -46,6 +46,14 @@ const App = () => {
     }
   }, []);
 
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    marginBottom: 5
+  }
+
   const blogs = useSelector(({ blogs }) => {
     return blogs
   })
@@ -53,9 +61,14 @@ const App = () => {
   const user = useSelector(({ user }) => user)
 
   const userMatch = useMatch('/users/:id')
+  const blogMatch = useMatch('/blogs/:id')
   
   const selectedUser = userMatch
     ? users.find(u => u.id === String(userMatch.params.id))
+    : null
+  
+  const selectedBlog = blogMatch
+    ? blogs.find(b => b.id === String(blogMatch.params.id))
     : null
 
   const handleLogin = async (event) => {
@@ -134,6 +147,13 @@ const App = () => {
           </p>
 
           <Routes>
+            <Route path="/blogs/:id" element={
+              <Blog
+                blog={selectedBlog}
+                user={user}
+              />
+            }
+            />
             <Route path="/users" element={
               <div>
                 <h2>Users</h2>
@@ -156,11 +176,9 @@ const App = () => {
 
                 {blogs
                   .map((blog) => (
-                    <Blog
-                      key={blog.id}
-                      blog={blog}
-                      user={user}
-                    />
+                    <Link key={blog.id} to={`/blogs/${blog.id}`}>
+                      <div style={blogStyle} key={blog.id}>{blog.title} {blog.author}</div>
+                    </Link>
                   ))}
               </div>
             } />

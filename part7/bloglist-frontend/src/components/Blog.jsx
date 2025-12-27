@@ -3,7 +3,8 @@ import { useDispatch } from 'react-redux'
 import { likeABlog, deleteABlog } from '../reducers/blogReducer'
 
 const Blog = ({ blog, user }) => {
-  const [showDetails, setShowDetails] = useState(false)
+  // const [showDetails, setShowDetails] = useState(false)
+  console.log(blog)
 
   const dispatch = useDispatch()
 
@@ -25,6 +26,7 @@ const Blog = ({ blog, user }) => {
     }
   }
 
+  /*
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -32,33 +34,23 @@ const Blog = ({ blog, user }) => {
     borderWidth: 1,
     marginBottom: 5
   }
-
-  if (showDetails) {
-    return (
-      <div style={blogStyle}>
-        <div>
-          {blog.title}
-          {blog.author}
-          <button onClick={() => setShowDetails(false)}>hide</button>
-        </div>
-        <div>{blog.url}</div>
-        <div>
-          likes
-          {blog.likes}
-          <button onClick={addLike}>like</button>
-        </div>
-        <div>{blog.user.name}</div>
-        {blog.user.name === user.name && <button onClick={() => deleteBlog()}>remove</button>}
-      </div>
-    )
+  */
+  if (blog === undefined) {
+      return null
   }
 
   return (
-    <div style={blogStyle}>
-      {blog.title} {blog.author}
-      <button onClick={() => setShowDetails(true)}>
-        view
-      </button>
+    <div>
+      <h2>{blog.title}</h2>
+      <p>{blog.url}</p>
+      <p>{blog.author}</p>
+      <p>
+        likes
+        {blog.likes}
+        <button onClick={addLike}>like</button>
+      </p>
+      <p>added by {blog.user.name}</p>
+      {blog.user.name === user.name && <button onClick={() => deleteBlog()}>remove</button>}
     </div>
   )
 }
